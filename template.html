@@ -1,0 +1,63 @@
+<div id="mount">
+	<div class='shuffle'>
+		<div class='shuffle_button' @click='shuffleItems()'>
+			Shuffle
+		</div>
+	</div>
+		<transition-group class="posts" v-bind:style="{ 'opacity': ready ? '1 !important' : 0, 'height': searchOpened ? 'calc(100vh - 200px) !important' : 'calc(100vh - 115px) !important' }" name="flip-list" tag="div">
+			<div v-for="p in searchedPosts" :id="'post-'+p.id" v-if="p.title.rendered!==''" class="post" v-bind:key="p.id" style="margin-bottom: 20px;" v-bind:style="{ 'flex-grow': getFlexGrow(p)}">
+					<!-- post with thumbnail -->
+					<div class="post_body" v-bind:style="{ 'transform': getTranslation(p), 'background-color': getColor(p) }">
+						<div v-if="p._embedded['wp:featuredmedia']" v-for="embed in p._embedded['wp:featuredmedia']" class="post_image">
+							<a :href="p.link">	
+								<img :src="embed.source_url" @load="rendered"/>
+							</a>		
+						</div>	
+						<div class="post_author">
+							<a  class="post_author_name" :href="p._embedded.author[0].link">
+								{{p._embedded.author[0].name.charAt(0).toUpperCase() + p._embedded.author[0].name.slice(1) }}
+							</a>
+						</div>
+						<div>
+							<a :href="p.link">	
+								<h3 class="post_title">{{ p.title.rendered }}</h3>
+							</a>
+							<!--
+							<div class="post_excerpt" v-html="p.excerpt.rendered"></div>
+							-->
+						</div>		
+					</div>
+					<!--
+					<div class='post_link'>
+					  <a :href="p.link"><?php esc_html_e('Read this!','wp-vue'); ?></a>
+					</div>
+					-->
+
+			</div>
+			<!--
+			<div class="pagination">
+				<ul class="page-numbers">
+					<li>
+						<a v-if="current_page > 1" href=""  @click.prevent="fetchPosts(current_page-1)">
+							<i class="dashicons dashicons-arrow-left-alt2"></i>
+						</a>
+					</li>
+					<li v-for="n in +total_page">
+						<a v-if="current_page!=n" href=""  @click.prevent="fetchPosts(n)">{{ n }}</a>
+						<a v-else="current_page!=n">{{ n }}</a>
+					</li>
+					<li>
+						<a v-if="current_page < total_page" href=""  @click.prevent="fetchPosts(current_page+1)">
+							<i class="dashicons dashicons-arrow-right-alt2"></i>
+						</a>
+					</li>
+				</ul>
+			</div>
+			-->
+		</transition-group>
+	<div class="preloader-container" v-if="!ready">
+		<img class="preloader" src="<?php echo WPVUE_PLUGIN_IMG_URI; ?>pageloader.gif">
+	</div>
+	
+</div>
+	
