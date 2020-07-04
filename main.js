@@ -3,7 +3,6 @@
   var vm = new Vue({
     el: document.querySelector('#mount'),
 	    	data: {
-	    	   message: 'WordPress Vue ShrotCode!',
 	    	   posts: [],
 	    	   total_page:null,
 	    	   total_posts:null,
@@ -30,6 +29,12 @@
 					}
 		  },
 	    	methods:{
+				getPostImage(img) {
+					if (img.mime_type === 'image/gif') {
+						return img.source_url
+					}
+				return img.media_details.sizes.thumbnail.source_url	
+				},
 				shuffleItems () {
 				  for(let i = this.posts.length - 1; i > 0; i--) {
 					let randomIndex = Math.floor(Math.random() * i);
@@ -40,7 +45,12 @@
 				  }
 				},
 				getTranslation (p) {
-					return 'translate(' + this.getRandomInt(-15, 15) + 'px,' + this.getRandomInt(-15, 15) + 'px) !important';
+					if (p.translation) {
+						return p.translation;
+					}
+					let translation = 'translate(' + this.getRandomInt(-15, 15) + 'px,' + this.getRandomInt(-15, 15) + 'px) !important';
+					p.translation = translation;
+					return translation;
 				},
 				getFlexGrow (p) {
 					return '0';
@@ -56,7 +66,12 @@
 					}
 				},
 				getColor (p) {
-					return this.colors[this.getRandomInt(0, this.colors.length)] + ' !important'
+					if (p.color) {
+						return p.color;
+					}
+					let color = this.colors[this.getRandomInt(0, this.colors.length)] + ' !important';
+					p.color = color;
+					return color;
 				},
 				getRandomInt (min, max) {
 				  min = Math.ceil(min);
@@ -65,6 +80,13 @@
 				},
 	    		handleScroll (event) {
 	    			// console.log(window.scrollY );
+	    			// 
+	    			//     function scrollHorizontally(e) {
+					e = window.event || e;
+					var delta = Math.max(-1, Math.min(1, (e.wheelDelta || -e.detail)));
+					document.getElementById('posts').scrollLeft -= (delta*25); // Multiplied by 40
+					//e.preventDefault();
+					
 			    },
 	    	  	fetchPosts: function(p = 1)
 	    	  	{	    	  	
@@ -129,6 +151,8 @@
     	 	created () 
     	 	{
 		        // window.addEventListener('scroll', this.handleScroll);
+				window.addEventListener('mousewheel', this.handleScroll);
+
 		       this.fetchPosts();
 			},
 		   	beforeMount: function()
@@ -137,6 +161,7 @@
 		   		// document.addEventListener('scroll', this.fetchPosts());
 		   	},
 			  mounted () {
+				  console.log('MOUNTED3');
 				  if (localStorage.getItem('postscache')) {
 					  this.posts = JSON.parse(localStorage.getItem('postscache'));
 					  this.ready = true;

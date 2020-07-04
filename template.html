@@ -4,13 +4,14 @@
 			Shuffle
 		</div>
 	</div>
-		<transition-group class="posts" v-bind:style="{ 'opacity': ready ? '1 !important' : 0, 'height': searchOpened ? 'calc(100vh - 200px) !important' : 'calc(100vh - 115px) !important' }" name="flip-list" tag="div">
+	<!--<draggable v-model="posts">-->
+		<transition-group class="posts" id="posts" v-bind:style="{ 'opacity': ready ? '1 !important' : 0, 'height': searchOpened ? 'calc(100vh - 115px) !important' : 'calc(100vh - 115px) !important' }" name="flip-list" tag="div">
 			<div v-for="p in searchedPosts" :id="'post-'+p.id" v-if="p.title.rendered!==''" class="post" v-bind:key="p.id" style="margin-bottom: 20px;" v-bind:style="{ 'flex-grow': getFlexGrow(p)}">
 					<!-- post with thumbnail -->
 					<div class="post_body" v-bind:style="{ 'transform': getTranslation(p), 'background-color': getColor(p) }">
 						<div v-if="p._embedded['wp:featuredmedia']" v-for="embed in p._embedded['wp:featuredmedia']" class="post_image">
 							<a :href="p.link">	
-								<img :src="embed.source_url" @load="rendered"/>
+								<img :src="getPostImage(embed)" @load="rendered"/>
 							</a>		
 						</div>	
 						<div class="post_author">
@@ -55,8 +56,9 @@
 			</div>
 			-->
 		</transition-group>
+	<!--</draggable>-->
 	<div class="preloader-container" v-if="!ready">
-		<img class="preloader" src="<?php echo WPVUE_PLUGIN_IMG_URI; ?>pageloader.gif">
+		<img class="preloader" src="https://pp.hfk-bremen.de/wp-content/uploads/2020/07/pac-man-gif.gif">
 	</div>
 	
 </div>
