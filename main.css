@@ -145,6 +145,7 @@ html {
 	color: white !important;
 	padding-right: 10px;
     padding-left: 10px;
+	font-size: 16px;
 }
 
 .post_author_name:hover {
@@ -211,15 +212,15 @@ a:hover, a:visited, a:link, a:active
 	left: 0;
 	top: 2px;
 	width: 60px !important;
-	height: 25px;
+	height: 40px;
 	z-index: 1;
-	background-color: yellow;
+	background-color: transparent;
 	font-size: 16px;	
 }
 
 .shuffle_button {
-	height: 20px;
-    width: 48px !important;
+	height: 40px;
+    width: 120px !important;
 	cursor: pointer;
 	z-index: 1;
 	margin: 0 auto;

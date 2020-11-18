@@ -8,18 +8,18 @@
 	    	   total_posts:null,
 	    	   posts_per_page:null,
 	    	   current_page:null,
-			   colors: ['#9400D3', '#4B0082', '#0000FF', '#00FF00', '#ff0066', '#FF7F00', '#FF0000'],
+			   colors: ['#9400D3', '#4B0082', '#0000FF', '#00FF00', '#ff0066', '#FF7F00', '#FF0000'],
 			   imagesCount: 0,
 			   imageCounter: 0,
 			   ready: false,
 				searchOpened: false,
 				searchValue: ''
-	    	},
+	    	},
 		  updated () {
 		  },
 		  computed: {
 			  searchedPosts () {
-					  if(this.searchValue !== ''){
+					  if(this.searchValue !== ''){
 					  return this.posts.filter((post)=>{
 						return this.searchValue.toLowerCase().split(' ').every(v => post.title.rendered.toLowerCase().includes(v)) || this.searchValue.toLowerCase().split(' ').every(v => post._embedded.author[0].name.toLowerCase().includes(v))
 					  })
@@ -91,7 +91,7 @@
 	    	  	fetchPosts: function(p = 1)
 	    	  	{	    	  	
 		    	  	this.$data.posts=null;
-		    	    var url = vuesettings.base_url+'wp-json/wp/v2/posts?_embed&per_page=100';
+		    	    var url = vuesettings.base_url+'wp-json/wp/v2/posts?_embed&per_page=100';
 					//?_embed&page='+p+'&per_page='+vuesettings.posts_per_page;
 					
 					/*
@@ -161,7 +161,7 @@
 		   		// document.addEventListener('scroll', this.fetchPosts());
 		   	},
 			  mounted () {
-				  console.log('MOUNTED3');
+				  console.log('MOUNTED3');
 				  if (localStorage.getItem('postscache')) {
 					  this.posts = JSON.parse(localStorage.getItem('postscache'));
 					  this.ready = true;
@@ -169,15 +169,15 @@
 					  this.calculateImageCount();
 				  }
 				  
-				  document.querySelector('.search-icon').addEventListener('click', () => {
-					  console.log('clicked on search')
+				  document.querySelector('.search-icon').addEventListener('click', () => {
+					  console.log('clicked on search')
 					  this.searchOpened = !this.searchOpened;
 					  
 					  if (this.searchOpened) {
 						  this.searchInterval = setInterval(() => {
 							  let searchInput = document.getElementsByClassName('search-form')[0];
 							  if (!searchInput) {
-								  this.searchValue = '';
+								  this.searchValue = '';
 							  } else {
 							  	this.searchValue = searchInput.getElementsByTagName('input')[0].value
 								// console.log(this.searchValue)
@@ -186,8 +186,8 @@
 					  } else {
 						  if (this.searchInterval) {
 						  	  clearInterval(this.searchInterval)
-							  this.searchValue = ''
-						  }
+							  this.searchValue = ''
+						  }
 					  }
 				  })
 			  },
